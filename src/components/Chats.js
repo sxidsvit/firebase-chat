@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ChatEngine } from 'react-chat-engine'
 import { auth } from '../firebase'
@@ -10,8 +10,6 @@ const Chats = () => {
   const history = useHistory()
   const { user } = useAuth()
   const [loading, setLoading] = useState(true)
-
-  console.log('Chats - user: ', user)
 
   const handleLogout = async () => {
     await auth.signOut()
@@ -25,10 +23,7 @@ const Chats = () => {
   }
 
   useEffect(() => {
-    if (!user) {
-      history.push('/')
-      return
-    }
+    if (!user) { history.push('/'); return }
 
     // Now we or get or create the user using catch()
     axios.get('https://api.chatengine.io/users/me', {
@@ -43,7 +38,7 @@ const Chats = () => {
       let formdata = new FormData()
       formdata.append('email', user.email)
       formdata.append('username', user.email)
-      formdata.append('secret', user.uid)
+      formdata.append('secret', user.uid || user.localId)
 
       getFile(user.photoURL)
         .then((avatar => {
@@ -74,7 +69,7 @@ const Chats = () => {
       </div>
       <ChatEngine
         height='calc(100vh - 66px)'
-        projectID={process.env.REACT_APP_CHAT_ENGINE_PROJECT_ID}
+        publicKey={process.env.REACT_APP_CHAT_ENGINE_PROJECT_ID}
         userName={user.email}
         userSecret={user.uid}
       />

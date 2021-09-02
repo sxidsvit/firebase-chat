@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }) => {
       setUser(user)
       setLoading(false)
       if (user) history.push('/chats')
-      console.log('AuthContext - user: ', user);
     })
   }, [user, history])
 
