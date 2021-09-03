@@ -8,4 +8,6 @@
 
 ![](./src//supplement/demo.gif)
 
+---
+
 [Site](https://sxidsvit-firebase-chat.netlify.app)
